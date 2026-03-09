@@ -1,0 +1,185 @@
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.viewport {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--background-viewport)
+}
+
+.scaler {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center center;
+}
+
+.app {
+    width: calc(var(--app-width));
+    height: calc(var(--app-height));
+
+    display: grid;
+    grid-template-columns: var(--app-sidebar-width) 1fr var(--app-inspector-width);
+    grid-template-rows: var(--app-title-height) 1fr var(--app-footer-height);
+    grid-template-areas:
+        "topbar topbar topbar"
+        "sidebar workspace inspector"
+        "status status status";
+
+    background: #1a1a1a;
+    border-radius: var(--app-border-radius);
+    overflow: hidden;
+
+    border: var(--app-border-thickness) var(--app-border-color);
+
+    box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+
+    color: #ededed;
+}
+
+.topbar {
+    grid-area: topbar;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+
+    background: linear-gradient(180deg, #2a2a2a 0%, #222222 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.linebreak {
+    width: var(--app-sidebar-width);
+    height: 1px;
+    background-color: rgba(255,255,255,0.5)
+}
+
+.sidebar {
+    grid-area: sidebar;
+    padding: 20px;
+    font-size: 15px;
+    color: #cfcfcf;
+
+    background: linear-gradient(180deg, #1f1f1f 0%, #181818 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-title {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.sidebar-content-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--sidebar-button-height);
+    margin: 8px;
+}
+
+.sidebar-button {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--sidebar-button-height);
+    height: var(--sidebar-button-height);
+    color: rgba(255, 255, 255, 0.4);
+    transition: background-color 0.15s ease, color 0.5s ease;
+}
+
+.sidebar-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.workspace {
+    grid-area: workspace;
+    padding: 20px;
+    overflow: clip;
+    font-size: 15px;
+    color: #e6e6e6;
+
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0)),
+        #131313;
+
+    position: relative;
+}
+
+.workspace::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.025), transparent 70%);
+}
+
+.inspector {
+    grid-area: inspector;
+    padding: 20px;
+    font-size: 15px;
+    color: #cfcfcf;
+
+    background: linear-gradient(180deg, #1f1f1f 0%, #181818 100%);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status {
+    grid-area: status;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-size: 12px;
+    color: #a8a8a8;
+
+    background: linear-gradient(180deg, #222222 0%, #1c1c1c 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.page-buttonpanel {
+    display: flex;
+    flex-wrap: wrap;
+    /* Prevents flex items from wrapping */
+    /* Optional: add horizontal scrolling if content overflows */
+    overflow-x: clip;
+    overflow-y: clip;
+    /*display: none;*/
+}
+
+.page-buttonpanel-inspector {
+    display:block;
+}
+
+.buttonpannel-button {
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(130deg, rgb(36, 36, 37) 0%, #131313 100%);
+    margin: 3px;
+    border-radius: 14px;
+    overflow: clip;
+    border: 2px solid rgba(255, 255, 255, 0.06);
+    transition: border 0.1s ease;
+}
+
+.buttonpannel-button:hover {
+    border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.page-nodeeditor {
+    display: none
+}
+
+.page-nodeeditor-inspector {
+    display: none
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Centered Scaled App</title>
+    <link rel="stylesheet" type="text/css" href="css/variables.css">
+    <link rel="stylesheet" type="text/css" href="css/utilities.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/animations.css">
+</head>
+
+<body>
+    <div class="viewport">
+        <div class="scaler" id="scaler">
+            <div class="app">
+                <div class="topbar">StreamDeck Studio</div>
+                <div class="sidebar">
+                    <div class="div-spacer-small text-align-center-bottom unselectable sidebar-title"><div><div class="text-align-center">Stream Deck</div><div class="linebreak"></div></div></div>
+                    <div class="div-spacer-tiny"></div>
+                    <div class="sidebar-button"><div class="sidebar-content-item unselectable">Streamdeck Buttons</div></div>
+                    <div class="sidebar-button"><div class="sidebar-content-item unselectable">Configure Actions</div></div>
+                    <div class="div-spacer-medium text-align-center-bottom unselectable sidebar-title"><div><div class="text-align-center">Config</div><div class="linebreak"></div></div></div>
+                    <div class="div-spacer-tiny"></div>
+                    <div class="sidebar-button"><div class="sidebar-content-item unselectable">Settings</div></div>
+                    <div class="sidebar-button"><div class="sidebar-content-item unselectable">Activation</div></div>
+                    <div class="sidebar-button"><div class="sidebar-content-item unselectable">Edit Actions</div></div>
+                </div>
+                <div class="workspace">
+                    <div class="page-buttonpanel grid" id="grid">
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                        <div class="buttonpannel-button"></div>
+                    </div>
+                    <div class="page-nodeeditor">
+                        Node editor
+                    </div>
+                </div>
+                <div class="inspector">
+                    <div class="page-buttonpanel-inspector">
+                        <div class="div-spacer-small text-align-center-bottom unselectable">
+                            <div style="height: 100%;">
+                                Actions
+                                <div class="linebreak"></div>
+                                <div class="div-spacer-small"></div>
+                                <div class="page-buttonpanel">
+                                    <div class="buttonpannel-button drag-item palette-item" draggable="true" data-type="panel" data-label="Panel">Panel</div>
+                                    <div class="buttonpannel-button drag-item palette-item" draggable="true" data-type="panel" data-label="Panel2">Panel2</div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="page-nodeeditor-inspector">Inspector-nodeeditor</div>
+                </div>
+                <div class="status">Ready</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./js/src.js"></script>
+</body>
+
+</html>

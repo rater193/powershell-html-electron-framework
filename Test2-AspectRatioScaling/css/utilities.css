@@ -1,0 +1,40 @@
+.unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari, Chrome, Opera */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Standard syntax */
+}
+
+.div-spacer-tiny {
+    height: 5px;
+}
+
+.div-spacer-small {
+    height: 20px;
+}
+
+.div-spacer-medium {
+    height: 40px;
+}
+
+.div-spacer-large {
+    height: 60px;
+}
+
+.text-align-center-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+.text-align-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.text-align-center-top {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}

@@ -1,0 +1,80 @@
+:root {
+  /* Base dark surfaces */
+  --background-color: #0b0d12;                 /* app page background */
+  --surface-0: #0f121a;                        /* deepest panels */
+  --surface-1: #141927;                        /* primary panels */
+  --surface-2: #1a2133;                        /* raised cards */
+  --surface-3: #212a3f;                        /* hover/active surfaces */
+
+  /* Text */
+  --text-primary: rgba(255, 255, 255, 0.92);
+  --text-secondary: rgba(255, 255, 255, 0.70);
+  --text-muted: rgba(255, 255, 255, 0.52);
+  --text-disabled: rgba(255, 255, 255, 0.35);
+
+  /* Borders / dividers */
+  --border-color: rgba(255, 255, 255, 0.10);
+  --border-color-strong: rgba(255, 255, 255, 0.16);
+
+  /* Accent + states */
+  --accent: #6ea8ff;                           /* modern blue */
+  --accent-2: #9b7bff;                         /* secondary accent (purple) */
+  --success: #35d07f;
+  --warning: #ffcc66;
+  --danger: #ff5d6c;
+
+  /* Gradients (for borders/outlines) */
+  --gradient-accent: linear-gradient(90deg, var(--accent), var(--accent-2));
+  --gradient-surface: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+
+  /* Shadows (soft, modern) */
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 18px 60px rgba(0, 0, 0, 0.55);
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+
+  /* Spacing */
+  --gap-1: 6px;
+  --gap-2: 10px;
+  --gap-3: 14px;
+  --gap-4: 18px;
+  --gap-5: 24px;
+
+  /* Typography (StreamDeck-ish) */
+  --font-family: "Segoe UI", "Inter", "Roboto", system-ui, -apple-system, sans-serif;
+  --font-size: 14px;
+  --font-size-sm: 12px;
+  --font-weight: 400;
+  --font-weight-semibold: 600;
+  --line-height: 1.4;
+
+  /* Controls */
+  --control-height: 40px;
+  --control-padding-x: 12px;
+  --control-bg: rgba(255, 255, 255, 0.06);
+  --control-bg-hover: rgba(255, 255, 255, 0.09);
+  --control-bg-active: rgba(255, 255, 255, 0.12);
+  --control-border: 1px solid var(--border-color);
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px rgba(110, 168, 255, 0.35);
+
+  /* Your existing sizes (kept + slightly clarified) */
+  --size-buttonpanel-height: 320px;
+  --size-buttonpaneltitle-height: 64px;
+  --size-buttonpanel-width: 640px;
+  --size-buttonpaneltitle-height-gap: 16px;
+
+  /* Back-compat alias for your old variable name */
+  --app-background-color-primary: var(--surface-1);
+  --app-background-color-secondary: var(--surface-2);
+
+  /* Streamdeck colors */
+  --streamdeck-button-color: rgb(5,5,5);
+}

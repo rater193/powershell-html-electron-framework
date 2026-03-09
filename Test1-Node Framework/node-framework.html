@@ -1,0 +1,29 @@
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="litegraph/litegraph.css">
+  <script type="text/javascript" src="litegraph/litegraph.js"></script>
+  <style>
+    #GraphRoot {
+      --app-bg: #0f0f0f;
+      --panel-bg: #242525;
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --text: #e7eaf0;
+      --text-muted: #cfd2da;
+      --input-bg: #121213;
+      --button-primary: #7b7f85;
+      --btn-bg: rgb(96, 99, 104);
+      --btn-bg-secondary: rgba(255, 255, 255, 0.06);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="GraphRoot">
+    <canvas id='mycanvas' width="100%" style='position: absolute; border: 1px solid; left: 0px; top: 0px;'></canvas>
+  </div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+
+</html>
