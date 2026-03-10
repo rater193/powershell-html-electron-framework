@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML Inspector Framework</title>
+  <style>
+    :root {
+      --bg-main: #1e1e1e;
+      --bg-panel: #252526;
+      --bg-panel-2: #2d2d30;
+      --bg-panel-3: #333337;
+      --bg-hover: #3a3a3f;
+      --bg-input: #1f1f22;
+      --border: #3f3f46;
+      --border-soft: #2d2d30;
+      --text: #e7e7e7;
+      --text-muted: #b7b7b7;
+      --text-dim: #8e8e8e;
+      --accent: #4ea1ff;
+      --danger: #d96c6c;
+      --label-width: 120px;
+      --row-height: 28px;
+      --radius: 6px;
+      --font: "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-main);
+      color: var(--text);
+      font-family: var(--font);
+      overflow: hidden;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr 360px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .sidebar,
+    .viewport,
+    .inspector {
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .sidebar {
+      background: #181818;
+      border-right: 1px solid var(--border-soft);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .viewport {
+      background:
+        radial-gradient(circle at top, #2a2a2a 0%, #1b1b1b 55%, #161616 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 20px;
+      border-right: 1px solid var(--border-soft);
+    }
+
+    .inspector {
+      background: var(--bg-panel);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(to bottom, #2c2c2f, #252528);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .object-list {
+      padding: 8px;
+      overflow: auto;
+    }
+
+    .object-button {
+      width: 100%;
+      background: var(--bg-panel-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      text-align: left;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .object-button:hover {
+      background: var(--bg-hover);
+    }
+
+    .object-button.active {
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 1px rgba(78, 161, 255, 0.2);
+    }
+
+    .inspector-scroll {
+      overflow: auto;
+      padding: 10px;
+    }
+
+    .inspector-object-header {
+      background: var(--bg-panel-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .inspector-object-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .inspector-object-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .component {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      background: var(--bg-panel-2);
+    }
+
+    .component-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 0 10px;
+      background: linear-gradient(to bottom, #35353a, #2d2d31);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .component-header:hover {
+      background: linear-gradient(to bottom, #3a3a40, #323237);
+    }
+
+    .foldout-arrow {
+      width: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      transition: transform 0.15s ease;
+    }
+
+    .component.collapsed .foldout-arrow {
+      transform: rotate(-90deg);
+    }
+
+    .component-title {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .component-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+
+    .icon-btn:hover {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+    }
+
+    .component-body {
+      padding: 8px;
+    }
+
+    .component.collapsed .component-body {
+      display: none;
+    }
+
+    .inspector-row {
+      display: grid;
+      grid-template-columns: var(--label-width) 1fr;
+      align-items: center;
+      gap: 10px;
+      min-height: var(--row-height);
+      padding: 4px 0;
+    }
+
+    .inspector-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .inspector-field {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .field-input,
+    .field-select,
+    .field-textarea {
+      width: 100%;
+      background: var(--bg-input);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      outline: none;
+      padding: 5px 8px;
+      font-size: 12px;
+      min-height: 28px;
+    }
+
+    .field-textarea {
+      resize: vertical;
+      min-height: 68px;
+      font-family: inherit;
+    }
+
+    .field-input:focus,
+    .field-select:focus,
+    .field-textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .field-checkbox {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+    }
+
+    .vector-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      width: 100%;
+    }
+
+    .vector-group.two {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .vector-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .vector-axis {
+      font-size: 11px;
+      color: var(--text-dim);
+      width: 12px;
+      text-align: center;
+      flex: 0 0 12px;
+    }
+
+    .color-field {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 6px;
+      width: 100%;
+      align-items: center;
+    }
+
+    .color-preview {
+      width: 34px;
+      height: 28px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+    }
+
+    .inline-button {
+      height: 28px;
+      border: 1px solid var(--border);
+      background: var(--bg-panel-3);
+      color: var(--text);
+      border-radius: 5px;
+      padding: 0 10px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .inline-button:hover {
+      background: var(--bg-hover);
+    }
+
+    .row-divider {
+      height: 1px;
+      background: var(--border-soft);
+      margin: 6px 0;
+    }
+
+    .empty-state {
+      padding: 18px;
+      color: var(--text-dim);
+      font-size: 13px;
+      text-align: center;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.02);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="panel-header">Scene Objects</div>
+      <div class="object-list" id="objectList"></div>
+    </aside>
+
+    <main class="viewport">
+      Scene / Preview Area
+    </main>
+
+    <aside class="inspector">
+      <div class="panel-header">Inspector</div>
+      <div class="inspector-scroll" id="inspectorRoot"></div>
+    </aside>
+  </div>
+
+  <script>
+    // ------------------------------------------------------------
+    // Demo data
+    // ------------------------------------------------------------
+    const sceneObjects = [
+      {
+        id: "player_001",
+        name: "Player",
+        type: "GameObject",
+        components: [
+          {
+            title: "Transform",
+            collapsed: false,
+            fields: [
+              { type: "vector3", key: "position", label: "Position", value: { x: 0, y: 1, z: 0 } },
+              { type: "vector3", key: "rotation", label: "Rotation", value: { x: 0, y: 45, z: 0 } },
+              { type: "vector3", key: "scale", label: "Scale", value: { x: 1, y: 1, z: 1 } }
+            ]
+          },
+          {
+            title: "Player Stats",
+            collapsed: false,
+            fields: [
+              { type: "text", key: "displayName", label: "Display Name", value: "James" },
+              { type: "number", key: "health", label: "Health", value: 100, step: 1 },
+              { type: "number", key: "speed", label: "Speed", value: 5.5, step: 0.1 },
+              { type: "toggle", key: "godMode", label: "God Mode", value: false },
+              { type: "dropdown", key: "class", label: "Class", value: "Ranger", options: ["Warrior", "Mage", "Ranger"] },
+              { type: "color", key: "tint", label: "Tint", value: "#4ea1ff" }
+            ]
+          }
+        ]
+      },
+      {
+        id: "light_001",
+        name: "Directional Light",
+        type: "Light",
+        components: [
+          {
+            title: "Transform",
+            collapsed: false,
+            fields: [
+              { type: "vector3", key: "position", label: "Position", value: { x: 3, y: 6, z: -2 } },
+              { type: "vector3", key: "rotation", label: "Rotation", value: { x: 50, y: -30, z: 0 } }
+            ]
+          },
+          {
+            title: "Light",
+            collapsed: false,
+            fields: [
+              { type: "dropdown", key: "lightType", label: "Type", value: "Directional", options: ["Directional", "Point", "Spot"] },
+              { type: "color", key: "color", label: "Color", value: "#fff4d6" },
+              { type: "number", key: "intensity", label: "Intensity", value: 1.25, step: 0.05 },
+              { type: "toggle", key: "shadows", label: "Shadows", value: true }
+            ]
+          }
+        ]
+      }
+    ];
+
+    let selectedObjectIndex = 0;
+
+    // ------------------------------------------------------------
+    // Inspector framework
+    // ------------------------------------------------------------
+    class InspectorFramework {
+      constructor(rootEl) {
+        this.rootEl = rootEl;
+        this.renderers = {};
+        this.registerDefaultRenderers();
+      }
+
+      registerRenderer(type, rendererFn) {
+        this.renderers[type] = rendererFn;
+      }
+
+      registerDefaultRenderers() {
+        this.registerRenderer("text", (field, onChange) => {
+          const input = document.createElement("input");
+          input.className = "field-input";
+          input.type = "text";
+          input.value = field.value ?? "";
+          input.addEventListener("input", () => onChange(input.value));
+          return input;
+        });
+
+        this.registerRenderer("number", (field, onChange) => {
+          const input = document.createElement("input");
+          input.className = "field-input";
+          input.type = "number";
+          input.value = field.value ?? 0;
+          if (field.step != null) input.step = field.step;
+          input.addEventListener("input", () => {
+            const parsed = Number(input.value);
+            onChange(Number.isNaN(parsed) ? 0 : parsed);
+          });
+          return input;
+        });
+
+        this.registerRenderer("toggle", (field, onChange) => {
+          const input = document.createElement("input");
+          input.className = "field-checkbox";
+          input.type = "checkbox";
+          input.checked = !!field.value;
+          input.addEventListener("change", () => onChange(input.checked));
+          return input;
+        });
+
+        this.registerRenderer("dropdown", (field, onChange) => {
+          const select = document.createElement("select");
+          select.className = "field-select";
+
+          (field.options || []).forEach(optionValue => {
+            const option = document.createElement("option");
+            option.value = optionValue;
+            option.textContent = optionValue;
+            if (optionValue === field.value) option.selected = true;
+            select.appendChild(option);
+          });
+
+          select.addEventListener("change", () => onChange(select.value));
+          return select;
+        });
+
+        this.registerRenderer("textarea", (field, onChange) => {
+          const textarea = document.createElement("textarea");
+          textarea.className = "field-textarea";
+          textarea.value = field.value ?? "";
+          textarea.addEventListener("input", () => onChange(textarea.value));
+          return textarea;
+        });
+
+        this.registerRenderer("vector2", (field, onChange) => {
+          return this.createVectorField(field, ["x", "y"], onChange);
+        });
+
+        this.registerRenderer("vector3", (field, onChange) => {
+          return this.createVectorField(field, ["x", "y", "z"], onChange);
+        });
+
+        this.registerRenderer("color", (field, onChange) => {
+          const wrap = document.createElement("div");
+          wrap.className = "color-field";
+
+          const preview = document.createElement("div");
+          preview.className = "color-preview";
+          preview.style.background = field.value || "#ffffff";
+
+          const input = document.createElement("input");
+          input.className = "field-input";
+          input.type = "text";
+          input.value = field.value || "#ffffff";
+
+          input.addEventListener("input", () => {
+            preview.style.background = input.value;
+            onChange(input.value);
+          });
+
+          wrap.appendChild(preview);
+          wrap.appendChild(input);
+          return wrap;
+        });
+
+        this.registerRenderer("button", (field, onChange) => {
+          const button = document.createElement("button");
+          button.className = "inline-button";
+          button.textContent = field.text || "Action";
+          button.addEventListener("click", () => {
+            if (typeof field.onClick === "function") {
+              field.onClick(field, onChange);
+            }
+          });
+          return button;
+        });
+      }
+
+      createVectorField(field, axes, onChange) {
+        const current = { ...(field.value || {}) };
+
+        const wrap = document.createElement("div");
+        wrap.className = `vector-group ${axes.length === 2 ? "two" : ""}`;
+
+        axes.forEach(axis => {
+          const axisWrap = document.createElement("div");
+          axisWrap.className = "vector-input-wrap";
+
+          const axisLabel = document.createElement("div");
+          axisLabel.className = "vector-axis";
+          axisLabel.textContent = axis.toUpperCase();
+
+          const input = document.createElement("input");
+          input.className = "field-input";
+          input.type = "number";
+          input.step = field.step ?? "0.1";
+          input.value = current[axis] ?? 0;
+
+          input.addEventListener("input", () => {
+            const parsed = Number(input.value);
+            current[axis] = Number.isNaN(parsed) ? 0 : parsed;
+            onChange({ ...current });
+          });
+
+          axisWrap.appendChild(axisLabel);
+          axisWrap.appendChild(input);
+          wrap.appendChild(axisWrap);
+        });
+
+        return wrap;
+      }
+
+      renderObject(targetObject, options = {}) {
+        this.rootEl.innerHTML = "";
+
+        if (!targetObject) {
+          const empty = document.createElement("div");
+          empty.className = "empty-state";
+          empty.textContent = "No object selected.";
+          this.rootEl.appendChild(empty);
+          return;
+        }
+
+        const header = document.createElement("div");
+        header.className = "inspector-object-header";
+        header.innerHTML = `
+          <div class="inspector-object-title">${this.escapeHtml(targetObject.name)}</div>
+          <div class="inspector-object-subtitle">${this.escapeHtml(targetObject.type || "Object")}</div>
+        `;
+        this.rootEl.appendChild(header);
+
+        (targetObject.components || []).forEach(component => {
+          this.rootEl.appendChild(
+            this.renderComponent(component, targetObject, options.onFieldChange)
+          );
+        });
+      }
+
+      renderComponent(component, targetObject, onFieldChange) {
+        const componentEl = document.createElement("div");
+        componentEl.className = "component";
+        if (component.collapsed) componentEl.classList.add("collapsed");
+
+        const header = document.createElement("div");
+        header.className = "component-header";
+
+        const arrow = document.createElement("div");
+        arrow.className = "foldout-arrow";
+        arrow.textContent = "▼";
+
+        const title = document.createElement("div");
+        title.className = "component-title";
+        title.textContent = component.title || "Component";
+
+        const actions = document.createElement("div");
+        actions.className = "component-actions";
+
+        const menuBtn = document.createElement("button");
+        menuBtn.className = "icon-btn";
+        menuBtn.textContent = "⋮";
+        menuBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          console.log("Component menu clicked:", component.title);
+        });
+
+        actions.appendChild(menuBtn);
+        header.appendChild(arrow);
+        header.appendChild(title);
+        header.appendChild(actions);
+
+        header.addEventListener("click", () => {
+          component.collapsed = !component.collapsed;
+          componentEl.classList.toggle("collapsed", component.collapsed);
+        });
+
+        const body = document.createElement("div");
+        body.className = "component-body";
+
+        (component.fields || []).forEach(field => {
+          const row = this.renderFieldRow(field, component, targetObject, onFieldChange);
+          body.appendChild(row);
+        });
+
+        componentEl.appendChild(header);
+        componentEl.appendChild(body);
+        return componentEl;
+      }
+
+      renderFieldRow(field, component, targetObject, onFieldChange) {
+        if (field.type === "divider") {
+          const divider = document.createElement("div");
+          divider.className = "row-divider";
+          return divider;
+        }
+
+        const row = document.createElement("div");
+        row.className = "inspector-row";
+
+        const label = document.createElement("div");
+        label.className = "inspector-label";
+        label.textContent = field.label || field.key || "Field";
+
+        const fieldWrap = document.createElement("div");
+        fieldWrap.className = "inspector-field";
+
+        const renderer = this.renderers[field.type];
+        if (!renderer) {
+          const unsupported = document.createElement("div");
+          unsupported.className = "field-input";
+          unsupported.textContent = `Unsupported field type: ${field.type}`;
+          fieldWrap.appendChild(unsupported);
+        } else {
+          const control = renderer(field, (newValue) => {
+            field.value = newValue;
+
+            if (typeof onFieldChange === "function") {
+              onFieldChange({
+                object: targetObject,
+                component,
+                field,
+                value: newValue
+              });
+            }
+          });
+
+          fieldWrap.appendChild(control);
+        }
+
+        row.appendChild(label);
+        row.appendChild(fieldWrap);
+        return row;
+      }
+
+      escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+    }
+
+    // ------------------------------------------------------------
+    // App wiring
+    // ------------------------------------------------------------
+    const objectListEl = document.getElementById("objectList");
+    const inspectorRootEl = document.getElementById("inspectorRoot");
+    const inspector = new InspectorFramework(inspectorRootEl);
+
+    function renderObjectList() {
+      objectListEl.innerHTML = "";
+
+      sceneObjects.forEach((obj, index) => {
+        const btn = document.createElement("button");
+        btn.className = "object-button";
+        if (index === selectedObjectIndex) btn.classList.add("active");
+
+        btn.innerHTML = `
+          <div style="font-weight:600; margin-bottom:4px;">${obj.name}</div>
+          <div style="font-size:12px; color:#9b9b9b;">${obj.type}</div>
+        `;
+
+        btn.addEventListener("click", () => {
+          selectedObjectIndex = index;
+          renderApp();
+        });
+
+        objectListEl.appendChild(btn);
+      });
+    }
+
+    function renderInspector() {
+      const selected = sceneObjects[selectedObjectIndex];
+
+      inspector.renderObject(selected, {
+        onFieldChange: ({ object, component, field, value }) => {
+          console.log("Changed:", {
+            objectId: object.id,
+            component: component.title,
+            key: field.key,
+            value
+          });
+
+          // This is where you would:
+          // - sync changes back to your real data model
+          // - trigger preview updates
+          // - emit events
+          // - persist configuration
+        }
+      });
+    }
+
+    function renderApp() {
+      renderObjectList();
+      renderInspector();
+    }
+
+    // ------------------------------------------------------------
+    // Example of extending with custom field types
+    // ------------------------------------------------------------
+    inspector.registerRenderer("range", (field, onChange) => {
+      const wrap = document.createElement("div");
+      wrap.style.display = "grid";
+      wrap.style.gridTemplateColumns = "1fr 46px";
+      wrap.style.gap = "6px";
+      wrap.style.width = "100%";
+
+      const slider = document.createElement("input");
+      slider.type = "range";
+      slider.min = field.min ?? 0;
+      slider.max = field.max ?? 100;
+      slider.step = field.step ?? 1;
+      slider.value = field.value ?? 0;
+      slider.style.width = "100%";
+
+      const number = document.createElement("input");
+      number.type = "number";
+      number.className = "field-input";
+      number.value = field.value ?? 0;
+
+      function sync(newVal) {
+        const parsed = Number(newVal);
+        slider.value = parsed;
+        number.value = parsed;
+        onChange(parsed);
+      }
+
+      slider.addEventListener("input", () => sync(slider.value));
+      number.addEventListener("input", () => sync(number.value));
+
+      wrap.appendChild(slider);
+      wrap.appendChild(number);
+      return wrap;
+    });
+
+    // Add a custom example field dynamically
+    sceneObjects[1].components[1].fields.push({
+      type: "range",
+      key: "rangeIntensity",
+      label: "Range Test",
+      value: 42,
+      min: 0,
+      max: 100,
+      step: 1
+    });
+
+    renderApp();
+  </script>
+</body>
+</html>
