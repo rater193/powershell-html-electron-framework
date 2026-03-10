@@ -1,0 +1,197 @@
+:root {
+  --bgcolor-main: #0b0f14;
+  ;
+  --bgcolor-gradient1: rgba(90, 124, 255, .14);
+  --bgcolor-gradient2: rgba(155, 176, 255, .09);
+  --color-primary: rgba(30, 44, 66, .89);
+  --color-secondary: #111112;
+  --outline-primary: #e7eaf0;
+  --outline-dark-primary: #4b4e57;
+  --outline-secondary: #cacbce;
+  --outline-dark-secondary: #303239;
+  --text: #e7eaf0;
+  --text-hover: #a5abb7;
+  --button-area-width: 704px;
+  --button-area-height: 367px;
+  --shift-vertical: 64px;
+  --shift-horizontal: 0px;
+  --button-color-primary: rgba(204, 208, 227, 0.541);
+  --button-color-primary-hover: rgba(157, 162, 184, 0.541);
+  --button-color-secondary: rgba(167, 171, 194, 0.541);
+}
+
+html,
+body {
+  height: 100%
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: radial-gradient(1200px 700px at 20% -10%, var(--bgcolor-gradient1), transparent 55%),
+    radial-gradient(900px 500px at 95% 5%, var(--bgcolor-gradient2), transparent 55%),
+    var(--bgcolor-main);
+  color: var(--text);
+}
+
+.noselect {
+  /* Standard property for modern browsers */
+  user-select: none;
+
+  /* Vendor prefixes for broader compatibility */
+  -webkit-user-select: none;
+  /* Safari, Chrome, Opera, Android */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer 10+ and Edge */
+}
+
+.StreamDeckTitle {
+  position: absolute;
+  width: var(--button-area-width);
+  height: 48px;
+  left: calc(50% - calc(var(--button-area-width)/2) + var(--shift-horizontal));
+  top: calc(50% - calc(var(--button-area-height)/2) - calc(var(--shift-vertical)/2));
+  display: flex;
+  font-size: 32pt;
+  justify-content: center;
+  /* horizontal */
+  align-items: center;
+  /* vertical */
+  text-align: center;
+  /* multi-line text alignment */
+}
+
+.StreamDeckButtonArea {
+  position: absolute;
+  width: var(--button-area-width);
+  height: var(--button-area-height);
+  left: calc(50% - calc(var(--button-area-width)/2) + var(--shift-horizontal));
+  top: calc(50% - calc(var(--button-area-height)/2) + calc(var(--shift-vertical)/2));
+  background: var(--color-primary);
+  border-radius: 14px;
+}
+
+.StreamDeckButton {
+  position: relative;
+  /* ✅ makes child absolute relative to this */
+  width: 80px;
+  height: 80px;
+  display: inline-block;
+  background-color: var(--color-secondary);
+  margin: 4px;
+  border-radius: 10px;
+}
+
+.StreamDeckButtonContent-Empty {
+  position: absolute;
+  inset: 2px;
+  /* ✅ top/right/bottom/left all 8px */
+}
+
+.ConfigureButtonTextContent {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  /* animate this */
+  visibility: hidden;
+  /* hide from view + clicks */
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.ConfigureButtonTextContent.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transition: opacity 0.3s ease, visibility 0s;
+}
+
+.ConfigureButtonTest {
+  position: absolute;
+  left: calc(50% - 128px);
+  top: calc(50% - 128px);
+  width: 280px;
+  height: 320px;
+  background-color: var(--color-primary);
+  outline: var(--outline-primary);
+  outline-width: 5px;
+  outline-style: solid;
+  border-radius: 10px;
+}
+
+.ConfigureButtonTestTitle {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  height: 48px;
+  background-color: var(--color-secondary);
+  font-size: 18pt;
+  border-radius: 10px;
+}
+
+.ConfigureButtonTestTitleContent {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  justify-content: center;
+  /* horizontal */
+  align-items: center;
+  /* vertical */
+  text-align: center;
+  /* multi-line text alignment */
+}
+
+.ConfigureButtonTestClose {
+  position: absolute;
+  width: 48px;
+  top: 0px;
+  right: 0px;
+  height: 48px;
+  background-color: #8e2e2e;
+  font-size: 32pt;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  /* horizontal */
+  align-items: center;
+  /* vertical */
+  text-align: center;
+  /* multi-line text alignment */
+}
+
+.ConfigureButtonTestSave {
+  position: absolute;
+  left: 8px;
+  height: 32px;
+  right: 8px;
+  bottom: 8px;
+  color: var(--text);
+  background-color: var(--button-color-primary);
+  font-size: 24pt;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  /* horizontal */
+  align-items: center;
+  /* vertical */
+  text-align: center;
+  /* multi-line text alignment */
+}
+
+.ConfigureButtonTestSave:hover {
+  background-color: var(--button-color-primary-hover);
+  color: var(--text-hover);
+}

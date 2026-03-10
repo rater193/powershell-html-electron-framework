@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stream Deck XL Config</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <main class="app">
+    <div class="StreamDeckTitle">
+      Stream Deck Remake
+    </div>
+    <div class="StreamDeckButtonArea" id="StreamDeckButtons">
+      <div class="ButtonAreaRow">
+        <div class="StreamDeckButton">
+          <div class="StreamDeckButtonContent">
+            <button id="my-button">Click Me</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ConfigureButtonTextContent" id="ConfigureButtonTextContent">
+      <div class="ConfigureButtonTest noselect" id="ConfigureButtonTest">
+        <div class="ConfigureButtonTestTitle">
+          <div class="ConfigureButtonTestTitleContent">Title</div>
+        </div>
+        <div class="ConfigureButtonTestClose" id="ConfigureButtonTestClose">
+          X
+        </div>
+        <div class="ConfigureButtonTestSave" id="ConfigureButtonTestSave">
+          Save
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="./renderer.js"></script>
+</body>
+
+</html>
