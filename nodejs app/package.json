@@ -13,7 +13,7 @@
   "dependencies": {
     "@elgato-stream-deck/node": "^7.6.0",
     "@napi-rs/canvas": "^0.1.95",
-    "electron": "^40.6.1",
+    "electron": "^40.8.0",
     "elgato-stream-deck": "^4.3.0",
     "napi-rs": "^0.3.10",
     "pngjs": "^7.0.0",
