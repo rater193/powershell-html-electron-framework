@@ -1,1 +1,58 @@
-<font color="white">test</font>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/variables.css">
+    <link rel="stylesheet" type="text/css" href="css/inspector.css">
+    <link rel="stylesheet" type="text/css" href="css/contextmenu.css">
+    <link rel="stylesheet" type="text/css" href="css/utilities.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/animations.css">
+</head>
+
+<body>
+    <div class="viewport">
+        <div class="scaler" id="scaler">
+            <div class="app">
+                <div class="topbar">StreamDeck Studio</div>
+                <!---->
+                <div class="sidebar">
+                    <center>
+                        <div class="sidebar-button-container selected-sidebar-button" id="Btn-Sidebar-ConfigureStreamdeck"><img class="sidebar-button-shortcut20" draggable="false" src="./img/sidebar-buttons.png"></img> </div>
+                        <div class="sidebar-button-container" id="Btn-Sidebar-EditActions"><img class="sidebar-button-shortcut" draggable="false"  src="./img/sidebar-editactions.png"></img> </div>
+                        <div class="sidebar-button-container" id="Btn-Sidebar-Settings"><img class="sidebar-button-shortcut" draggable="false"  src="./img/sidebar-settings.png"></img> </div>
+                    </center>
+                </div>
+                <div class="workspace">
+                    <div class="page-buttonpanel">
+                        <div class="page-buttonpanel-storage grid" id="page-buttonpanel">
+
+                        </div>
+                    </div>
+                    <div class="page-nodeeditor">
+                        Node editor
+                    </div>
+                </div>
+                <div class="inspector" id="inspector">
+                </div>
+                <div class="status unselectable" id="status">loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu" id="contextMenu">
+        <div class="menu-item unselectable" data-action="CreateGroup">Create Group</div>
+        <div class="menu-item unselectable" data-action="SetKeybind">Create Keybind</div>
+        <div class="menu-item unselectable" data-action="Copy">Copy</div>
+        <div class="menu-item unselectable" data-action="Paste">Paste</div>
+        <div class="menu-item unselectable" data-action="delete">Delete</div>
+    </div>
+
+    <script type="module" src="./js/src.js"></script>
+    <script type="module" src="./js/electron.js"></script>
+</body>
+
+</html>

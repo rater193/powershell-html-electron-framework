@@ -1,0 +1,42 @@
+
+:root {
+
+    /* GENERIC APP SETTINGS */
+    /*
+        THINGS TO NOTE:
+            THE PAGE AUTOMATICALLY SCALES WITH THE ASPECT RATIO SO ALL CONTENT WILL
+            UPDATE ACCORDINGLY WITHOUT REDUCING QUALITY
+    */
+    --app-border-radius: 14px;
+    --app-title-height: 64px;
+    --app-footer-height: 32px;
+    --app-sidebar-width: 64px;
+    --app-inspector-width: 200px;
+    --app-border-thickness: 1px;
+    --app-border-color: solid rgba(255, 255, 255, 0.06);
+
+    
+    --app-width: 960px;
+    --app-height: 540px;
+
+
+
+
+    /* VIEWPORT */
+    --background-viewport:  radial-gradient(circle at top, rgba(255, 255, 255, 0.035), transparent 35%),
+                            linear-gradient(180deg, #151515 0%, #0d0d0d 100%);
+    
+
+
+    /* ANIMATIONS */
+    --animation-tween-time: 100;
+
+
+
+    
+    /* SIDEBAR */
+    --sidebar-button-height: 32px;
+
+
+    --button-container-width-8x4: 520px;
+}
