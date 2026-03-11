@@ -5,11 +5,10 @@ Node Version: `22.22.1`<br/>
 NPM Version: `10.9.4`
 
 ## Setup Steps:
-- To get started, navigate to the App directory in the terminal, and run `npm install`<br/>
-*This will install all of the nodejs libraries for the project.*
 - You can download nodejs from the official nodejs website.
 <a href="https://nodejs.org/en/download">https://nodejs.org/en/download</a>
-- Navigate to the `./App` directory, and run `npm install` in the terminal
+- Navigate to the `./App` directory, and run `npm install` in the terminal<br/>
+*This will install all of the nodejs libraries for the project.*
 
 ## How to run the program
 - Navigate to the `./App` directory in the Terminal
@@ -28,3 +27,7 @@ NPM Version: `10.9.4`
 - `./App`:<br/>*This directory is where the electron app is stored for the final release. When you run the project, run it within this folder.*
 - `./Build`:<br/>*This is where i store t he build scripts to automate building the app for other platforms/operating systems.*
 - `./Output`:<br/>*This directory is where the built programs can be stored for people to download directly. The names will be standardized, so they can be used to download the latest nightly builds of the project for update solutions.*
+
+#### How does this work
+To begin with, each OS can have a potentially different solution for integrating the macro backend with the interface frontend. So there is a standardized framework that i put together to act as a translation to whatever platform specific macro you desire to tap into. The files for the standalone get added by the profiles stored within the `./Build` directory, which has the command translations to let you use commands to perform macro actions, such as press a key, release a key, delay, etc...
+In  short: There is a front end thats standardized, a middle layer for translation, and a separate profile for each platform that gets selected when you compile the project, or run the test launch command (which you can modify to target your OS for testing).
