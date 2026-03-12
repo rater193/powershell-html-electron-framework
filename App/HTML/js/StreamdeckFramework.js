@@ -56,6 +56,11 @@ export function ResetButtonLayout(width, height) {
             }
         }
 
+        try {
+        window.electron.triggerAction({ action: "clearSlot", id: i}).then(res => {});
+        }catch(e){
+            alert(e);
+        }
         buttons[i] = button;
     }
 }
@@ -69,6 +74,8 @@ export function DeleteButton(id) {
     buttons[Number(id)].icon = "";
     buttons[Number(id)].executedFunction = null;
     buttons[Number(id)].element.innerHTML = "";
+
+    window.electron.triggerAction({ action: "clearSlot", id: id}).then(res => {});
 }
 
 export function SetButton(id, icon, text, executedFunction) {
@@ -83,4 +90,7 @@ export function SetButton(id, icon, text, executedFunction) {
     return buttons[Number(id)];
 }
 
-ResetButtonLayout(8, 4);
+
+document.addEventListener('DOMContentLoaded', () => {
+    ResetButtonLayout(8, 4);
+});

@@ -1,6 +1,7 @@
 import * as Globals from "./Globals.js";
-import * as StreamdeckFramework from "./StreamdeckFramework.js"
-import * as InspectorConstructor from "./InspectorConstructor.js"
+import * as StreamdeckFramework from "./StreamdeckFramework.js";
+import * as InspectorConstructor from "./InspectorConstructor.js";
+//import { toPng } from '../../node_modules/html-to-image/dist/html-to-image.js';
 
 let selectedPage = null;
 
@@ -25,6 +26,10 @@ class StreamdeckPage {
                     selectedPage = page
                     selectedPage.RenderPage()
                 })
+                const elementToRender = StreamdeckFramework.Getbutton(btnid).element;
+                htmlToImage.toPng(elementToRender, { cacheBust: false }).then(async (result) => {
+                    window.electron.triggerAction({ action: "setImage", id: btnid, image: result })
+                })
 
             },
             inspector: function () {
@@ -42,8 +47,21 @@ class StreamdeckPage {
             itemtype: "button",
             render: function (btnid) {
                 StreamdeckFramework.SetButton(btnid, "./img/sidebar-buttons.png", "", async function (btnid) {
-                    await window.electron.triggerAction({ someData: "example data" });
+                    //alert("test1");
+                    //alert(htmlToImage);
+                    //alert("test2");
+                    //let data = await htmlToImage.toPixelData(StreamdeckFramework.Getbutton(btnid).element);
+                    //alert(toPng);
+                    //alert(await Object.keys(htmlToImage.toPng(StreamdeckFramework.Getbutton(btnid).element)));
+                    //alert(StreamdeckFramework.Getbutton(btnid).element);
                 })
+
+                const elementToRender = StreamdeckFramework.Getbutton(btnid).element;
+                htmlToImage.toPng(elementToRender, { cacheBust: false }).then(async (result) => {
+                    window.electron.triggerAction({ action: "setImage", id: btnid, image: result })
+                })
+
+                //await window.electron.triggerAction({ action: "setImage", id: btnid, image: await htmlToImage.toPng(test2, {cacheBust: false})});
 
             },
             inspector: function () {
@@ -79,6 +97,11 @@ class StreamdeckPage {
                 selectedPage = parent;
                 selectedPage.RenderPage()
             });
+
+            const elementToRender = StreamdeckFramework.Getbutton(btnid).element;
+            htmlToImage.toPng(elementToRender, { cacheBust: false }).then(async (result) => {
+                window.electron.triggerAction({ action: "setImage", id: 24, image: result })
+            })
         }
     }
 }

@@ -39,7 +39,6 @@ Globals.elementContextMenu.addEventListener("click", function (e) {
         case "delete":
             StreamdeckPage.GetSelectedPage().DeleteNode(buttonID);
             InspectorConstructor.inspector.Clear()
-            //StreamdeckFramework.DeleteButton(buttonID)
             break;
     }
 
